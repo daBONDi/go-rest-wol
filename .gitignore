@@ -1,0 +1,5 @@
+.exe
+.vscode
+build.bat
+install.bat
+debug
