@@ -39,7 +39,6 @@ Computer2,2D-F2-3D-06-17-00,192.168.10.254:9
 Computer3,FF-B3-95-62-1C-DD,192.168.10.254:9
 ```
 
-
 Was a good exercise to learn golang
 
 Thx https://github.com/sabhiram/go-wol for the WOL Code, sorry that i stole it from you, because i got no clue how i can inject it into my program :-(
