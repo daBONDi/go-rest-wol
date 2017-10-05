@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
 // ComputerList contains all Computers who we can use to work with
@@ -29,28 +32,28 @@ func WakeUp(ComputerName string, List []Computer) (string, string) {
 
 func main() {
 
-	fmt.Print("Loading Computer CSV File")
-	ComputerList := LoadComputerListCSVFile("./computer.csv")
-	fmt.Print("Done")
+	// Start Processing Shell Arguments or use Default Values defined i const.go
+	httpPort, computerFilePath := processShellArgs()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// Loading Computer CSV File to Memory File in Memory
+	var loadComputerCSVFileError error
+	if ComputerList, loadComputerCSVFileError = loadComputerList(computerFilePath); loadComputerCSVFileError != nil {
+		log.Fatalf("Error on loading Computerlist File \"%s\" check File access and formating", computerFilePath)
+	}
 
-		paramComputerName := r.URL.Query().Get("computer")
-		if paramComputerName != "" {
-			result, err := WakeUp(paramComputerName, ComputerList)
+	// Init HTTP Router - mux
+	router := mux.NewRouter()
 
-			if err != "" {
-				fmt.Fprintf(w, "<p>WOL Result: %s ERROR: %s</p>", paramComputerName, err)
-			} else {
-				fmt.Fprintf(w, "<p>Computer: %s %s</p>", paramComputerName, result)
-			}
+	// Define Home Route
+	router.HandleFunc("/", renderHomePage).Methods("GET")
 
-		}
+	// Define Wakeup Api functions with a Computer Name
+	router.HandleFunc("/api/wakeup/computer/{computerName}", restWakeUpWithComputerName).Methods("GET")
+	router.HandleFunc("/api/wakeup/computer/{computerName}/", restWakeUpWithComputerName).Methods("GET")
 
-		// Building Table Output here
-		fmt.Fprint(w, GetComputerListTable(ComputerList))
-	})
+	// Setup Webserver
+	httpListen := fmt.Sprint(":", httpPort)
+	log.Printf("Startup Webserver on \"%s\"", httpListen)
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
-
+	log.Fatal(http.ListenAndServe(httpListen, handlers.RecoveryHandler(handlers.PrintRecoveryStack(true))(router)))
 }

@@ -6,7 +6,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
-	"fmt"
+	"log"
 	"net"
 	"regexp"
 )
@@ -105,13 +105,13 @@ func SendMagicPacket(macAddr, bcastAddr, iface string) error {
 	// Fill our byte buffer with the bytes in our MagicPacket
 	var buf bytes.Buffer
 	binary.Write(&buf, binary.BigEndian, magicPacket)
-	fmt.Printf("Attempting to send a magic packet to MAC %s\n", macAddr)
-	fmt.Printf("... Broadcasting to: %s\n", bcastAddr)
+	log.Printf("Attempting to send a magic packet to MAC %s\n", macAddr)
+	log.Printf("... Broadcasting to: %s\n", bcastAddr)
 
 	// Get a UDPAddr to send the broadcast to
 	udpAddr, err := net.ResolveUDPAddr("udp", bcastAddr)
 	if err != nil {
-		fmt.Printf("Unable to get a UDP address for %s\n", bcastAddr)
+		log.Printf("Unable to get a UDP address for %s\n", bcastAddr)
 		return err
 	}
 
@@ -121,7 +121,7 @@ func SendMagicPacket(macAddr, bcastAddr, iface string) error {
 		var err error
 		localAddr, err = GetIpFromInterface(iface)
 		if err != nil {
-			fmt.Printf("ERROR: %s\n", err.Error())
+			log.Printf("ERROR: %s\n", err.Error())
 			return errors.New("Unable to get address for interface " + iface)
 		}
 	}
@@ -129,7 +129,7 @@ func SendMagicPacket(macAddr, bcastAddr, iface string) error {
 	// Open a UDP connection, and defer it's cleanup
 	connection, err := net.DialUDP("udp", localAddr, udpAddr)
 	if err != nil {
-		fmt.Printf("ERROR: %s\n", err.Error())
+		log.Printf("ERROR: %s\n", err.Error())
 		return errors.New("Unable to dial UDP address.")
 	}
 	defer connection.Close()
@@ -137,10 +137,10 @@ func SendMagicPacket(macAddr, bcastAddr, iface string) error {
 	// Write the bytes of the MagicPacket to the connection
 	bytesWritten, err := connection.Write(buf.Bytes())
 	if err != nil {
-		fmt.Printf("Unable to write packet to connection\n")
+		log.Printf("Unable to write packet to connection\n")
 		return err
 	} else if bytesWritten != 102 {
-		fmt.Printf("Warning: %d bytes written, %d expected!\n", bytesWritten, 102)
+		log.Printf("Warning: %d bytes written, %d expected!\n", bytesWritten, 102)
 	}
 
 	return nil
