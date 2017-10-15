@@ -12,28 +12,15 @@ import (
 // ComputerList contains all Computers who we can use to work with
 var ComputerList []Computer
 
-// Find and Wakeup Computer
-func WakeUp(ComputerName string, List []Computer) (string, string) {
-
-	for _, c := range List {
-		if c.Name == ComputerName {
-			err := SendMagicPacket(c.Mac, c.BroadcastIPAddress, "")
-			if err != nil {
-				// TODO Refactor with Error Object
-				return "ERROR", "WOL Module Error"
-			}
-
-			return "OK", ""
-		}
-	}
-
-	return "ERROR", "Invalid Computer Name"
-}
-
 func main() {
 
 	// Start Processing Shell Arguments or use Default Values defined i const.go
 	httpPort, computerFilePath := processShellArgs()
+
+	// Process ENV WOLFILE Variables if we got Default Value for ComputerFilePath
+	if computerFilePath == DefaultComputerFilePath {
+		computerFilePath = processEnvVars()
+	}
 
 	// Loading Computer CSV File to Memory File in Memory
 	var loadComputerCSVFileError error
