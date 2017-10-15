@@ -1,0 +1,1 @@
+docker build --rm --tag dabondi/go-rest-wol --file docker/go-rest-wol-nano .

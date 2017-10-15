@@ -1,0 +1,14 @@
+version: '3'
+services:
+  wol:
+    image: "dabondi/go-rest-wol"
+    ports:
+      - "8080:8080"
+
+    # Warten auf die neue Version 
+    #volumes:
+    #  - c:\temp:temp
+networks:
+  default:
+    external:
+      name: nat
