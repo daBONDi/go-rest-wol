@@ -1,4 +1,4 @@
-FROM golang:1.11.2
+FROM golang:1.11.2-alpine
 # Install Dependecies
 RUN go get -d github.com/gorilla/handlers
 RUN go get -d github.com/gorilla/mux
