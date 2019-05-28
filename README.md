@@ -39,6 +39,18 @@ Computer2,2D-F2-3D-06-17-00,192.168.10.254:9
 Computer3,FF-B3-95-62-1C-DD,192.168.10.254:9
 ```
 
-Was a good exercise to learn golang
+## Docker
+```
+docker build -t go-rest-wol .
+docker run go-rest-wol
+```
+If you want to run on a different port (i.e.: 6969) and also want to provide the csv file on your host:
+```
+docker run -p 6969:8080 -v $(pwd)/externall-file-on-host.csv:/app/computer.csv go-rest-wol
+
+```
+
+
+Was a good exercise to learn golang (and refresh my Docker skills)
 
 Thx https://github.com/sabhiram/go-wol for the WOL Code, sorry that i stole it from you, because i got no clue how i can inject it into my program :-(
