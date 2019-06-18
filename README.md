@@ -40,13 +40,16 @@ Computer3,FF-B3-95-62-1C-DD,192.168.10.254:9
 ```
 
 ## Docker
+
+**Docker Image:** dabondi/get-rest-wol
+
 ```
 docker build -t go-rest-wol .
 docker run go-rest-wol
 ```
 If you want to run on a different port (i.e.: 6969) and also want to provide the csv file on your host:
 ```
-docker run -p 6969:8080 -v $(pwd)/externall-file-on-host.csv:/app/computer.csv go-rest-wol
+docker run -p 6969:8080 -v $(pwd)/externall-file-on-host.csv:/app/computer.csv dabondi/go-rest-wol
 
 ```
 
