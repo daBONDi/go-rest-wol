@@ -58,4 +58,4 @@ Was a good exercise to learn golang (and refresh my Docker skills)
 
 Thx https://github.com/sabhiram/go-wol for the WOL Code, sorry that i stole it from you, because i got no clue how i can inject it into my program :-(
 
-## If you got good ideas, i'm open for any pull requests
+**If you got good ideas, i'm open for any pull requests**
