@@ -1,14 +1,14 @@
 # GoLang HTTP Server for Remote WOL Requesting from an CSV Computer List
 
-A HTTP Server who send Wake On Lan Package on an HTTP Request.
+A HTTP server who sends a Wake On LAN package on an HTTP request.
 
-### Simple Bootstrap UI for the easy Usage.
+### Simple bootstrap UI for easy usage
 
 ![Screenshot](https://github.com/daBONDi/go-rest-wol/raw/master/screenshot.PNG)
 
-### Simple REST API to let a Machine wake someone up
+### Simple REST API to let a machine wake someone up
 
-/api/computer/**<ComputerName>** -  Returns a JSON Object
+/api/wakeup/computer/**&lt;hostname&gt;** -  Returns a JSON object
 
 ```json
 {
@@ -18,14 +18,14 @@ A HTTP Server who send Wake On Lan Package on an HTTP Request.
 }
 ```
 
-## Command Line Arguments
+## Commandline arguments
 
-| Commandline Argument | Example          | Description                                                                            |
+| Commandline argument | Example          | Description                                                                            |
 | -------------------- | ---------------- | -------------------------------------------------------------------------------------- |
-| --port               | --port 80        | Define the Port where the Webserver will listen to **(Default: 8080)**                 |
-| --file               | --file comp.csv  | Path to the CSV File containing the Computerlist                                       |
+| --port               | --port 80        | Define the port on which the webserver will listen to **(Default: 8080)**              |
+| --file               | --file comp.csv  | Path to the CSV file containing the list of hosts                                      |
 
-## Computer List File CSV layout
+## Computer list file CSV layout
 
 ### Columns
 __&lt;name of the computer&gt;__,__&lt;mac address of the computer&gt;__,__&lt;broadcast ip to send the magic packet&gt;__
@@ -47,15 +47,15 @@ Computer3,FF-B3-95-62-1C-DD,192.168.10.254:9
 docker build -t go-rest-wol .
 docker run go-rest-wol
 ```
-If you want to run on a different port (i.e.: 6969) and also want to provide the csv file on your host:
+If you want to run it on a different port (i.e.: 6969) and also want to provide the CSV file on your host:
 ```
 docker run -p 6969:8080 -v $(pwd)/externall-file-on-host.csv:/app/computer.csv dabondi/go-rest-wol
 
 ```
 
 
-Was a good exercise to learn golang (and refresh my Docker skills)
+This was a good exercise to learn Golang (and refresh my Docker skills).
 
-Thx https://github.com/sabhiram/go-wol for the WOL Code, sorry that i stole it from you, because i got no clue how i can inject it into my program :-(
+Thx https://github.com/sabhiram/go-wol for the WOL code, sorry that I stole it from you, because I got no clue how I can inject it into my program. :-(
 
-**If you got good ideas, i'm open for any pull requests**
+**If you have any good ideas, I'm open for pull requests.**
