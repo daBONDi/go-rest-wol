@@ -2,6 +2,10 @@
 
 A HTTP server who sends a Wake On LAN package on an HTTP request.
 
+### Docker Image
+
+[![](https://images.microbadger.com/badges/version/dabondi/go-rest-wol.svg)](https://hub.docker.com/repository/docker/dabondi/go-rest-wol "https://hub.docker.com/repository/docker/dabondi/go-rest-wol") [![](https://images.microbadger.com/badges/image/dabondi/go-rest-wol.svg)](https://hub.docker.com/repository/docker/dabondi/go-rest-wol "https://hub.docker.com/repository/docker/dabondi/go-rest-wol")
+
 ### Simple bootstrap UI for easy usage
 
 ![Screenshot](https://github.com/daBONDi/go-rest-wol/raw/master/screenshot.PNG)
