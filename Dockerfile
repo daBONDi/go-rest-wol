@@ -1,5 +1,8 @@
 FROM golang:alpine AS builder
 
+LABEL org.label-schema.vcs-url="https://github.com/daBONDi/go-rest-wol" \
+      org.label-schema.url="https://github.com/daBONDi/go-rest-wol/blob/master/README.md"
+
 RUN mkdir /app
 ADD . /app/
 WORKDIR /app
