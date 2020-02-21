@@ -45,7 +45,7 @@ Computer3,FF-B3-95-62-1C-DD,192.168.10.254:9
 
 ## Docker
 
-**Docker Image:** dabondi/get-rest-wol
+**Docker Image:** dabondi/go-rest-wol
 
 ```
 docker build -t go-rest-wol .
