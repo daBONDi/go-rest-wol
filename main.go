@@ -14,13 +14,14 @@ var ComputerList []Computer
 
 func main() {
 
-	// Start Processing Shell Arguments or use Default Values defined i const.go
-	httpPort, computerFilePath := processShellArgs()
+	httpPort := DefaultHTTPPort
+	computerFilePath := DefaultComputerFilePath
 
-	// Process ENV WOLFILE Variables if we got Default Value for ComputerFilePath
-	if computerFilePath == DefaultComputerFilePath {
-		computerFilePath = processEnvVars()
-	}
+	// Start Processing Shell Arguments or use Default Values defined i const.go
+	httpPort, computerFilePath = processShellArgs()
+
+	// Process Environment Variables
+	httpPort, computerFilePath = processEnvVars()
 
 	// Loading Computer CSV File to Memory File in Memory
 	var loadComputerCSVFileError error

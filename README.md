@@ -22,12 +22,20 @@ A HTTP server who sends a Wake On LAN package on an HTTP request.
 }
 ```
 
+## Enviroment Variables
+
+| Variable Name | Description |
+| ------------- | ------------------------------------------------------------------------------- |
+| WOLFILE       | Define the port on which the webserver will listen to **(Default: 8080)**       |
+| WOLHTTPPORT   | Path to the CSV file containing the list of hosts **(Default: .\computer.csv)** |
+
+
 ## Commandline arguments
 
 | Commandline argument | Example          | Description                                                                            |
 | -------------------- | ---------------- | -------------------------------------------------------------------------------------- |
 | --port               | --port 80        | Define the port on which the webserver will listen to **(Default: 8080)**              |
-| --file               | --file comp.csv  | Path to the CSV file containing the list of hosts                                      |
+| --file               | --file comp.csv  | Path to the CSV file containing the list of hosts **(Default: .\computer.csv)**        |
 
 ## Computer list file CSV layout
 
@@ -52,11 +60,17 @@ docker build -t go-rest-wol .
 docker run go-rest-wol
 ```
 If you want to run it on a different port (i.e.: 6969) and also want to provide the CSV file on your host:
+
 ```
 docker run -p 6969:8080 -v $(pwd)/externall-file-on-host.csv:/app/computer.csv dabondi/go-rest-wol
-
 ```
 
+If you want to run the WOL Webserver Process in the Webserver on a different Port:
+
+```
+# Used if you run in Network Host Mode
+docker run -e "WOLHTTPPORT=9090" -p 9090:9090 -v $(pwd)/externall-file-on-host.csv:/app/computer.csv dabondi/go-rest-wol
+```
 
 This was a good exercise to learn Golang (and refresh my Docker skills).
 

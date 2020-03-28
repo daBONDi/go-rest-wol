@@ -26,3 +26,13 @@ func loadComputerList(computerCsvFilePath string) ([]Computer, error) {
 	computerCsvFilePointer.Close()
 	return computers, nil
 }
+
+// Test if Path is a File and it exist
+func FileExists(name string) bool {
+	if fi, err := os.Stat(name); err == nil {
+		if fi.Mode().IsRegular() {
+			return true
+		}
+	}
+	return false
+}

@@ -14,7 +14,7 @@ import (
 // Define globals for the MacAddress parsing
 var (
 	delims = ":-"
-	re_MAC = regexp.MustCompile(`^([0-9a-fA-F]{2}[` + delims + `]){5}([0-9a-fA-F]{2})$`)
+	reMAC  = regexp.MustCompile(`^([0-9a-fA-F]{2}[` + delims + `]){5}([0-9a-fA-F]{2})$`)
 )
 
 type MACAddress [6]byte
@@ -36,7 +36,7 @@ func NewMagicPacket(mac string) (*MagicPacket, error) {
 	// We only support 6 byte MAC addresses since it is much harder to use
 	// the binary.Write(...) interface when the size of the MagicPacket is
 	// dynamic.
-	if !re_MAC.MatchString(mac) {
+	if !reMAC.MatchString(mac) {
 		return nil, errors.New("MAC address " + mac + " is not valid.")
 	}
 

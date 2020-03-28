@@ -45,7 +45,7 @@ func processShellArgs() (int, string) {
 	}
 
 	// Try to Stat the File if not Fail Fatal
-	if _, err := os.Stat(filepath); os.IsNotExist(err) {
+	if !FileExists(filepath) {
 		log.Fatalf("Could not find or access Computerlist --file Argument Value: \"%s\"", filepath)
 	}
 

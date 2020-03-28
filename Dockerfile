@@ -24,6 +24,9 @@ COPY --from=builder /app/pages/index.html ./pages/index.html
 COPY --from=builder /app/computer.csv .
 COPY --from=builder /app/main .
 
+ARG WOLHTTPPORT=8080
+ARG WOLFILE=computer.csv
+
 CMD ["/app/main"]
 
-EXPOSE 8080
+EXPOSE ${WOLHTTPPORT}

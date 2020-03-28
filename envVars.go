@@ -3,21 +3,27 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 )
 
 // Processing Shell Arguments
-func processEnvVars() string {
+func processEnvVars() (int, string) {
 
 	computerFile := DefaultComputerFilePath
+	port := DefaultHTTPPort
 
 	if os.Getenv(DefaultComputerFilePathEnvironmentName) != "" {
 		computerFile = os.Getenv(DefaultComputerFilePathEnvironmentName)
+		if !FileExists(computerFile) {
+			log.Fatalf("Environmentvariable \"%s\" is set but Value is not a Path to an existing File: %s", DefaultComputerFilePathEnvironmentName, computerFile)
+		}
 	}
 
-	// Try to Stat the Filepath from Env Variable if not Fail Fatal
-	if _, err := os.Stat(computerFile); os.IsNotExist(err) {
-		log.Fatalf("Could not find or access Computerlist Environment Variable WOLFILE: \"%s\"", computerFile)
+	if os.Getenv(DefaultHTTPPortEnvironmentVariableName) != "" {
+		var err error
+		if port, err = strconv.Atoi(os.Getenv(DefaultHTTPPortEnvironmentVariableName)); err != nil {
+			log.Fatalf("Environmentvariable \"%s\" should be a integer", DefaultHTTPPortEnvironmentVariableName)
+		}
 	}
-
-	return computerFile
+	return port, computerFile
 }
