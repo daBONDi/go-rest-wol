@@ -23,6 +23,18 @@ I followed this article (https://www.howtogeek.com/109655/how-to-remotely-shut-d
 }
 ```
 
+### Simple REST API to shutdown a machine
+
+/api/shutdown/computer/**&lt;hostname&gt;** -  Returns a JSON object
+
+```json
+{
+  "success":true,
+  "message":"Shutdown of remote machine succeeded",
+  "error":null
+}
+```
+
 ## Enviroment Variables
 
 | Variable Name | Description |
