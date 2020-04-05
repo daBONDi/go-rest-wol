@@ -7,10 +7,12 @@ import (
 )
 
 // Processing Shell Arguments
-func processEnvVars() (int, string) {
+func processEnvVars() (int, string, string, string) {
 
 	computerFile := DefaultComputerFilePath
 	port := DefaultHTTPPort
+	username := UsernameForShutdown
+    password := PasswordForShutdown
 
 	if os.Getenv(DefaultComputerFilePathEnvironmentName) != "" {
 		computerFile = os.Getenv(DefaultComputerFilePathEnvironmentName)
@@ -25,5 +27,14 @@ func processEnvVars() (int, string) {
 			log.Fatalf("Environmentvariable \"%s\" should be a integer", DefaultHTTPPortEnvironmentVariableName)
 		}
 	}
-	return port, computerFile
+
+	if os.Getenv(DefaultComputerUsernameEnvironmentName) != "" {
+    	username = os.Getenv(DefaultComputerUsernameEnvironmentName)
+    }
+
+    if os.Getenv(DefaultComputerPasswordEnvironmentName) != "" {
+        password = os.Getenv(DefaultComputerPasswordEnvironmentName)
+    }
+
+	return port, computerFile, username, password
 }

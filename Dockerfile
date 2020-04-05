@@ -26,6 +26,8 @@ COPY --from=builder /app/main .
 
 ARG WOLHTTPPORT=8080
 ARG WOLFILE=computer.csv
+ARG WOLUSER=user
+ARG WOLPWD=password
 
 CMD ["/app/main"]
 

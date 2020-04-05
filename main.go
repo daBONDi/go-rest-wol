@@ -21,7 +21,7 @@ func main() {
 	httpPort, computerFilePath = processShellArgs()
 
 	// Process Environment Variables
-	httpPort, computerFilePath = processEnvVars()
+	httpPort, computerFilePath, _, _ = processEnvVars()
 
 	// Loading Computer CSV File to Memory File in Memory
 	var loadComputerCSVFileError error
