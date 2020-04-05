@@ -21,7 +21,7 @@ func main() {
 	httpPort, computerFilePath = processShellArgs()
 
 	// Process Environment Variables
-	httpPort, computerFilePath = processEnvVars()
+	httpPort, computerFilePath, _, _ = processEnvVars()
 
 	// Loading Computer CSV File to Memory File in Memory
 	var loadComputerCSVFileError error
@@ -38,6 +38,9 @@ func main() {
 	// Define Wakeup Api functions with a Computer Name
 	router.HandleFunc("/api/wakeup/computer/{computerName}", restWakeUpWithComputerName).Methods("GET")
 	router.HandleFunc("/api/wakeup/computer/{computerName}/", restWakeUpWithComputerName).Methods("GET")
+	// Define Shutdown Api functions with a Computer Name
+	router.HandleFunc("/api/shutdown/computer/{computerName}", restShutdownWithComputerName).Methods("GET")
+    router.HandleFunc("/api/shutdown/computer/{computerName}/", restShutdownWithComputerName).Methods("GET")
 
 	// Setup Webserver
 	httpListen := fmt.Sprint(":", httpPort)

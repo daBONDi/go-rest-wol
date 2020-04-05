@@ -15,7 +15,7 @@ RUN apk update && apk upgrade && \
     go get -d github.com/gocarina/gocsv
 
 # Build Source Files
-RUN go build -o main . 
+RUN go build -o main .
 
 # Create 2nd Stage final image
 FROM alpine
@@ -26,7 +26,11 @@ COPY --from=builder /app/main .
 
 ARG WOLHTTPPORT=8080
 ARG WOLFILE=computer.csv
+ARG WOLUSER=user
+ARG WOLPWD=password
 
 CMD ["/app/main"]
 
 EXPOSE ${WOLHTTPPORT}
+
+RUN apk add --no-cache samba samba-common-tools

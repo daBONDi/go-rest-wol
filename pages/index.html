@@ -16,7 +16,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12" role="main">
-          <h1><span class="fa fa-qq"></span> GO-REST-WOL <small>Your little Monster to Wakeup the lazy one</small></h1>
+          <h1><span class="fa fa-qq"></span> GO-REST-WOL <small>Your little Monster to Wakeup and shutdown the lazy one</small></h1>
             <div id="snackbar" class="alert hideMe">
               Message comes here
             </div>
@@ -24,9 +24,11 @@
                 <thead>
                   <tr>
                     <th></td>
+                    <th></td>
                     <th>Computer</th>
-                    <th>MAC Adress</th>
+                    <th>MAC Address</th>
                     <th>Broadcast IP Address</th>
+                    <th>Real IP Address</th>
                     <th>API URL</th>
                   </tr>
                 </thead>
@@ -34,9 +36,11 @@
                   {{range .}}
                   <tr>
                     <td class="align-middle"><b><button id="bn_{{.Name}}" name="wolbutton" value="{{.Name}}" class="btn btn-success btn-sm" onclick="$.wakeUpComputerByName('{{.Name}}')">WakeUp</button></b></td>
+                    <td class="align-middle"><b><button name="wolbutton" value="{{.Name}}" class="btn btn-danger btn-sm" onclick="$.shutdownComputerByName('{{.Name}}')">Shutdown</button></b></td>
                     <td class="align-middle">{{.Name}}</td>
                     <td class="align-middle">{{.Mac}}</td>
                     <td class="align-middle">{{.BroadcastIPAddress}}</td>
+                    <td class="align-middle">{{.IPAddress}}</td>
                     <td class="align-middle">/api/wakeup/computer/{{.Name}}</td>
                   </tr>
                   {{end}}
@@ -57,11 +61,23 @@
                   }
                 </pre>
                 </p>
+          <b>/api/shutdown/computer/<span class="text-info">&lt;ComputerName&gt;</span></b>
+
+          <b>Returns a JSON Object</b>
+          <p>
+          <pre>
+                  {
+                    "success":true,
+                    "message":"Shutdown of remote machine succeeded",
+                    "error":null
+                  }
+                </pre>
+          </p>
                 <dl class="dl-horizontal">
                   <dt>success</dt>
-                  <dd>True or False if the WakeOnLan Paket was send</dd>
+                  <dd>True or False if the WakeOnLan Packet or Shutdown command was sent</dd>
                   <dt>message</dt>
-                  <dd>Message as string what happen</dd>
+                  <dd>Message as string of what happened</dd>
                   <dt>error</dt>
                   <dd>Encoded Jsonobject from GOLANG Error Object</dd>
                 </dl>
@@ -72,7 +88,7 @@
                 <span class="fa fa-github"></span> Project Page: <a href="https://github.com/dabondi/go-rest-wol">https://github.com/dabondi/go-rest-wol</a>
               </p>
               <p>
-                  <small>Build with <span class="fa fa-heart text-danger" aria-hidden="true"></span> by David Baumann, <span class="fa fa-github"></span> <a href="https://github.com/dabondi">https://github.com/dabondi</a></small>
+                  <small>Built with <span class="fa fa-heart text-danger" aria-hidden="true"></span> by David Baumann, <span class="fa fa-github"></span> <a href="https://github.com/dabondi">https://github.com/dabondi</a></small>
               </p>
         </div>
       </div>
@@ -120,7 +136,23 @@
           })
         };
 
-
+        jQuery.shutdownComputerByName = function(computerName) {
+          $.ajax({
+            type: "GET",
+            url: "/api/shutdown/computer/" + computerName,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) {
+              $.showSnackBar(data);
+            },
+            error: function(data,err)
+            {
+              $.showSnackBar(data);
+              console.error(data);
+            }
+          })
+        };
+        
       });
 
 
