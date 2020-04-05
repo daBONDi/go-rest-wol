@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"log"
-	"io"
 	"os/exec"
 
 	"github.com/gorilla/mux"
@@ -64,6 +64,12 @@ func restWakeUpWithComputerName(w http.ResponseWriter, r *http.Request) {
 //restShutdownWithComputerName - REST Handler for Processing URLS /api/computer/<computerName>
 func restShutdownWithComputerName(w http.ResponseWriter, r *http.Request) {
 
+	username := UsernameForShutdown
+	password := PasswordForShutdown
+
+	// Process Environment Variables
+	_, _, username, password = processEnvVars()
+
 	w.Header().Set("Content-Type", "application/json")
 
 	vars := mux.Vars(r)
@@ -85,40 +91,21 @@ func restShutdownWithComputerName(w http.ResponseWriter, r *http.Request) {
 			if c.Name == computerName {
 
 				// We found the Computername
+				//
+				var namepluspass = username + "%" + password
+                   cmd := exec.Command("net", "rpc", "shutdown","-I",c.IPAddress, "-U", namepluspass)
+                   	cmd.Stdout = os.Stdout
+                   	cmd.Stderr = os.Stderr
+                   	err := cmd.Run()
+                   	if err != nil {
+                   		log.Fatalf("cmd.Run() failed with %s\n", err)
+                   	}
 
-				cmd := exec.Command("ls")
-                   stdin, err := cmd.StdinPipe()
-                   if err != nil {
-                   	log.Fatal(err)
-                   }
-
-                   go func() {
-                   	defer stdin.Close()
-                   	io.WriteString(stdin, "values written to stdin are passed to cmd's standard input")
-                   }()
-
-                   out, err := cmd.CombinedOutput()
-                   if err != nil {
-                   	log.Fatal(err)
-                   }
-
-                   fmt.Printf("%s\n", out)
-                   result.Success = false
-                   result.Message = "Shutdown"
+                   result.Success = true
+                   result.Message = "Shutdown successfull!"
                    result.ErrorObject = err
 
-				/*if err := SendMagicPacket(c.Mac, c.BroadcastIPAddress, ""); err != nil {
-					// We got an internal Error on SendMagicPacket
-					w.WriteHeader(http.StatusInternalServerError)
-					result.Success = false
-					result.Message = "Internal error on Shutdown"
-					result.ErrorObject = err
-				} else {
-					// Horray we send the WOL Packet succesfully
-					result.Success = true
-					result.Message = fmt.Sprintf("Succesfully Shutdown Computer %s with Mac %s on Broadcast IP %s", c.Name, c.Mac, c.BroadcastIPAddress)
-					result.ErrorObject = nil
-				}*/
+
 			}
 		}
 
