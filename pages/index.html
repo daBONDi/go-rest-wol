@@ -36,7 +36,7 @@
                   {{range .}}
                   <tr>
                     <td class="align-middle"><b><button id="bn_{{.Name}}" name="wolbutton" value="{{.Name}}" class="btn btn-success btn-sm" onclick="$.wakeUpComputerByName('{{.Name}}')">WakeUp</button></b></td>
-                    <td class="align-middle"><b><button id="bn_{{.Shutdown}}" name="wolbutton" value="{{.Name}}" class="btn btn-danger btn-sm" onclick="$.shutdownComputerByName('{{.Name}}')">Shutdown</button></b></td>
+                    <td class="align-middle"><b><button name="wolbutton" value="{{.Name}}" class="btn btn-danger btn-sm" onclick="$.shutdownComputerByName('{{.Name}}')">Shutdown</button></b></td>
                     <td class="align-middle">{{.Name}}</td>
                     <td class="align-middle">{{.Mac}}</td>
                     <td class="align-middle">{{.BroadcastIPAddress}}</td>
