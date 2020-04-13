@@ -26,7 +26,7 @@ type MagicPacket struct {
 	payload [16]MACAddress
 }
 
-// This function accepts a MAC Address string, and returns a pointer to
+// NewMagicPacket accepts a MAC Address string, and returns a pointer to
 // a MagicPacket object. A Magic Packet is a broadcast frame which
 // contains 6 bytes of 0xFF followed by 16 repetitions of a given mac address.
 func NewMagicPacket(mac string) (*MagicPacket, error) {
@@ -64,8 +64,8 @@ func NewMagicPacket(mac string) (*MagicPacket, error) {
 	return &packet, nil
 }
 
-// This function gets the address associated with an interface
-func GetIpFromInterface(iface string) (*net.UDPAddr, error) {
+// GetIPFromInterface This function gets the address associated with an interface
+func GetIPFromInterface(iface string) (*net.UDPAddr, error) {
 	ief, err := net.InterfaceByName(iface)
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func GetIpFromInterface(iface string) (*net.UDPAddr, error) {
 	return nil, errors.New("Unable to find valid IP addr for interface " + iface)
 }
 
-// Function to send a magic packet to a given mac address, and optionally
+// SendMagicPacket Function to send a magic packet to a given mac address, and optionally
 // receives an iface to broadcast on. An iface of "" implies a nil net.UDPAddr
 func SendMagicPacket(macAddr, bcastAddr, iface string) error {
 	// Construct a MagicPacket for the given MAC Address
@@ -119,7 +119,7 @@ func SendMagicPacket(macAddr, bcastAddr, iface string) error {
 	var localAddr *net.UDPAddr
 	if iface != "" {
 		var err error
-		localAddr, err = GetIpFromInterface(iface)
+		localAddr, err = GetIPFromInterface(iface)
 		if err != nil {
 			log.Printf("ERROR: %s\n", err.Error())
 			return errors.New("Unable to get address for interface " + iface)
