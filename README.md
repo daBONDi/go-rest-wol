@@ -26,8 +26,8 @@ A HTTP server who sends a Wake On LAN package on an HTTP request.
 
 | Variable Name | Description |
 | ------------- | ------------------------------------------------------------------------------- |
-| WOLFILE       | Define the port on which the webserver will listen to **(Default: 8080)**       |
-| WOLHTTPPORT   | Path to the CSV file containing the list of hosts **(Default: .\computer.csv)** |
+| WOLHTTPPORT   | Define the port on which the webserver will listen to **(Default: 8080)**       |
+| WOLFILE       | Path to the CSV file containing the list of hosts **(Default: .\computer.csv)** |
 
 
 ## Commandline arguments
