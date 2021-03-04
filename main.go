@@ -14,6 +14,8 @@ var ComputerList []Computer
 
 func main() {
 
+
+
 	httpPort := DefaultHTTPPort
 	computerFilePath := DefaultComputerFilePath
 
@@ -38,6 +40,10 @@ func main() {
 	// Define Wakeup Api functions with a Computer Name
 	router.HandleFunc("/api/wakeup/computer/{computerName}", restWakeUpWithComputerName).Methods("GET")
 	router.HandleFunc("/api/wakeup/computer/{computerName}/", restWakeUpWithComputerName).Methods("GET")
+
+		// Define Wakeup Api functions with a Computer Name
+	router.HandleFunc("/api/ping/computer/{computerName}", pingWithComputerName).Methods("GET")
+	router.HandleFunc("/api/ping/computer/{computerName}/", pingWithComputerName).Methods("GET")
 
 	// Setup Webserver
 	httpListen := fmt.Sprint(":", httpPort)
