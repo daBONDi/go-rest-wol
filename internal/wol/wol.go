@@ -1,4 +1,4 @@
-package main
+package wol
 
 // Stolen from https://github.com/sabhiram/go-wol
 

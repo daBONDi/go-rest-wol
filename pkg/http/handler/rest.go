@@ -1,17 +1,17 @@
-// Rest API Implementations
-
-package main
+package handler
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 
+	"github.com/daBONDi/go-rest-wol/internal/repository"
+	"github.com/daBONDi/go-rest-wol/internal/wol"
 	"github.com/gorilla/mux"
 )
 
-//restWakeUpWithComputerName - REST Handler for Processing URLS /api/computer/<computerName>
-func restWakeUpWithComputerName(w http.ResponseWriter, r *http.Request) {
+// RestWakeUpWithComputerName - REST Handler for Processing URLS /api/computer/<computerName>
+func RestWakeUpWithComputerName(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
@@ -30,11 +30,11 @@ func restWakeUpWithComputerName(w http.ResponseWriter, r *http.Request) {
 	} else {
 
 		// Get Computer from List
-		for _, c := range ComputerList {
+		for _, c := range repository.ComputerList {
 			if c.Name == computerName {
 
 				// We found the Computername
-				if err := SendMagicPacket(c.Mac, c.BroadcastIPAddress, ""); err != nil {
+				if err := wol.SendMagicPacket(c.Mac, c.BroadcastIPAddress, ""); err != nil {
 					// We got an internal Error on SendMagicPacket
 					w.WriteHeader(http.StatusInternalServerError)
 					result.Success = false

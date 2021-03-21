@@ -5,27 +5,27 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/daBONDi/go-rest-wol/internal/repository"
+	"github.com/daBONDi/go-rest-wol/pkg/cmd"
+	"github.com/daBONDi/go-rest-wol/pkg/http/handler"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
-// ComputerList contains all Computers who we can use to work with
-var ComputerList []Computer
-
 func main() {
 
-	httpPort := DefaultHTTPPort
-	computerFilePath := DefaultComputerFilePath
+	httpPort := cmd.DefaultHTTPPort
+	computerFilePath := cmd.DefaultComputerFilePath
 
 	// Start Processing Shell Arguments or use Default Values defined i const.go
-	httpPort, computerFilePath = processShellArgs()
+	httpPort, computerFilePath = cmd.ProcessShellArgs()
 
 	// Process Environment Variables
-	httpPort, computerFilePath = processEnvVars()
+	httpPort, computerFilePath = cmd.ProcessEnvVars()
 
 	// Loading Computer CSV File to Memory File in Memory
 	var loadComputerCSVFileError error
-	if ComputerList, loadComputerCSVFileError = loadComputerList(computerFilePath); loadComputerCSVFileError != nil {
+	if repository.ComputerList, loadComputerCSVFileError = repository.LoadComputerList(computerFilePath); loadComputerCSVFileError != nil {
 		log.Fatalf("Error on loading Computerlist File \"%s\" check File access and formating", computerFilePath)
 	}
 
@@ -33,11 +33,11 @@ func main() {
 	router := mux.NewRouter()
 
 	// Define Home Route
-	router.HandleFunc("/", renderHomePage).Methods("GET")
+	router.HandleFunc("/", handler.RenderHomePage).Methods("GET")
 
 	// Define Wakeup Api functions with a Computer Name
-	router.HandleFunc("/api/wakeup/computer/{computerName}", restWakeUpWithComputerName).Methods("GET")
-	router.HandleFunc("/api/wakeup/computer/{computerName}/", restWakeUpWithComputerName).Methods("GET")
+	router.HandleFunc("/api/wakeup/computer/{computerName}", handler.RestWakeUpWithComputerName).Methods("GET")
+	router.HandleFunc("/api/wakeup/computer/{computerName}/", handler.RestWakeUpWithComputerName).Methods("GET")
 
 	// Setup Webserver
 	httpListen := fmt.Sprint(":", httpPort)
