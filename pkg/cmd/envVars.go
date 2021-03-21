@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"log"
@@ -6,8 +6,18 @@ import (
 	"strconv"
 )
 
-// Processing Shell Arguments
-func processEnvVars() (int, string) {
+// Test if Path is a File and it exist
+func FileExists(name string) bool {
+	if fi, err := os.Stat(name); err == nil {
+		if fi.Mode().IsRegular() {
+			return true
+		}
+	}
+	return false
+}
+
+// ProcessEnvVars Processing Shell Arguments
+func ProcessEnvVars() (int, string) {
 
 	computerFile := DefaultComputerFilePath
 	port := DefaultHTTPPort

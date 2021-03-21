@@ -1,6 +1,4 @@
-/* Processing and handling Shell Arguments */
-
-package main
+package cmd
 
 import (
 	"log"
@@ -8,8 +6,8 @@ import (
 	"strconv"
 )
 
-// Processing Shell Arguments
-func processShellArgs() (int, string) {
+// ProcessShellArgs Processing Shell Arguments
+func ProcessShellArgs() (int, string) {
 	// Reading Shell Args
 	shellArgs := os.Args[1:]
 

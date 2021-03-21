@@ -1,4 +1,4 @@
-package main
+package repository
 
 import (
 	"log"
@@ -8,7 +8,7 @@ import (
 )
 
 // LoadComputerList loads the Computer and return the readed list or an error
-func loadComputerList(computerCsvFilePath string) ([]Computer, error) {
+func LoadComputerList(computerCsvFilePath string) ([]Computer, error) {
 
 	var computers []Computer
 
@@ -25,14 +25,4 @@ func loadComputerList(computerCsvFilePath string) ([]Computer, error) {
 
 	computerCsvFilePointer.Close()
 	return computers, nil
-}
-
-// Test if Path is a File and it exist
-func FileExists(name string) bool {
-	if fi, err := os.Stat(name); err == nil {
-		if fi.Mode().IsRegular() {
-			return true
-		}
-	}
-	return false
 }
