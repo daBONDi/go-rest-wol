@@ -57,7 +57,7 @@ Computer3,FF-B3-95-62-1C-DD,192.168.10.254:9
 
 ```
 docker build -t go-rest-wol .
-docker run go-rest-wol
+docker run --rm -p 8080:8080 go-rest-wol
 ```
 If you want to run it on a different port (i.e.: 6969) and also want to provide the CSV file on your host:
 

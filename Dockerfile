@@ -26,4 +26,6 @@ COPY --from=builder /app/go-rest-wol .
 ENV WOLHTTPPORT=8080
 ENV WOLFILE=computer.csv
 
+EXPOSE ${WOLHTTPPORT}
+
 ENTRYPOINT ["/app/go-rest-wol"]
