@@ -17,9 +17,12 @@ func processShellArgs() (int, string) {
 
 	flag.Parse()
 
+	flagset := make(map[string]bool)
+	flag.Visit(func(f *flag.Flag) { flagset[f.Name]=true } )
+
 
 	// Try to Stat the File if not Fail Fatal
-	if !FileExists(*filePath) {
+	if flagset["file"] && !FileExists(*filePath) {
 		log.Fatalf("Could not find or access Computerlist --file Argument Value: \"%s\"", *filePath)
 	}
 
