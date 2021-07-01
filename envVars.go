@@ -7,10 +7,7 @@ import (
 )
 
 // Processing Shell Arguments
-func processEnvVars() (int, string) {
-
-	computerFile := DefaultComputerFilePath
-	port := DefaultHTTPPort
+func processEnvVars(port int, computerFile string) (int, string) {
 
 	if os.Getenv(DefaultComputerFilePathEnvironmentName) != "" {
 		computerFile = os.Getenv(DefaultComputerFilePathEnvironmentName)
