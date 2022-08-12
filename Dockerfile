@@ -24,8 +24,8 @@ COPY --from=builder /app/pages/index.html ./pages/index.html
 COPY --from=builder /app/computer.csv .
 COPY --from=builder /app/go-rest-wol .
 
-ARG WOLHTTPPORT=8080
-ARG WOLFILE=computer.csv
+ENV WOLHTTPPORT=8080
+ENV WOLFILE=computer.csv
 
 CMD ["/app/go-rest-wol"]
 
