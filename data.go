@@ -27,7 +27,7 @@ func loadComputerList(computerCsvFilePath string) ([]Computer, error) {
 	return computers, nil
 }
 
-// Test if Path is a File and it exist
+// Test if Path is a File and it exists
 func FileExists(name string) bool {
 	if fi, err := os.Stat(name); err == nil {
 		if fi.Mode().IsRegular() {

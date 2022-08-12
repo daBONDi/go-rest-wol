@@ -7,7 +7,7 @@ RUN mkdir /app
 ADD . /app/
 WORKDIR /app
 
-# Install Dependecies
+# Install Dependencies
 RUN apk update && apk upgrade && \
     apk add --no-cache git && \
     go get -d github.com/gorilla/handlers@v1.5.1 && \
