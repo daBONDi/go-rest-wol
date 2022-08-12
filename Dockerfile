@@ -10,9 +10,9 @@ WORKDIR /app
 # Install Dependecies
 RUN apk update && apk upgrade && \
     apk add --no-cache git && \
-    go get -d github.com/gorilla/handlers && \
-    go get -d github.com/gorilla/mux && \
-    go get -d github.com/gocarina/gocsv
+    go get -d github.com/gorilla/handlers@v1.5.1 && \
+    go get -d github.com/gorilla/mux@v1.8.0 && \
+    go get -d github.com/gocarina/gocsv@v0.0.0-20220727205534-7fbf8e1b37fb
 
 # Build Source Files
 RUN go build -o main . 
