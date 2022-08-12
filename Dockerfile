@@ -15,18 +15,18 @@ RUN apk update && apk upgrade && \
     go get -d github.com/gocarina/gocsv@v0.0.0-20220727205534-7fbf8e1b37fb
 
 # Build Source Files
-RUN go build -o main . 
+RUN go build 
 
 # Create 2nd Stage final image
 FROM alpine:3.16
 WORKDIR /app
 COPY --from=builder /app/pages/index.html ./pages/index.html
 COPY --from=builder /app/computer.csv .
-COPY --from=builder /app/main .
+COPY --from=builder /app/go-rest-wol .
 
 ARG WOLHTTPPORT=8080
 ARG WOLFILE=computer.csv
 
-CMD ["/app/main"]
+CMD ["/app/go-rest-wol"]
 
 EXPOSE ${WOLHTTPPORT}
