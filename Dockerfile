@@ -1,4 +1,4 @@
-FROM golang:alpine AS builder
+FROM golang:alpine3.16 AS builder
 
 LABEL org.label-schema.vcs-url="https://github.com/daBONDi/go-rest-wol" \
       org.label-schema.url="https://github.com/daBONDi/go-rest-wol/blob/master/README.md"
@@ -18,7 +18,7 @@ RUN apk update && apk upgrade && \
 RUN go build -o main . 
 
 # Create 2nd Stage final image
-FROM alpine
+FROM alpine:3.16
 WORKDIR /app
 COPY --from=builder /app/pages/index.html ./pages/index.html
 COPY --from=builder /app/computer.csv .
