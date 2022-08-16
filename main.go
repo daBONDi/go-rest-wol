@@ -14,7 +14,7 @@ var ComputerList []Computer
 
 func main() {
 
-	// Start Processing Shell Arguments or use Default Values defined i const.go
+	// Start Processing Shell Arguments or use Default Values defined in const.go
 	httpPort, computerFilePath := processShellArgs()
 
 	// Process Environment Variables
