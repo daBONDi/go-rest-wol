@@ -12,7 +12,8 @@ RUN apk update && apk upgrade && \
     apk add --no-cache git && \
     go get -d github.com/gorilla/handlers@v1.5.1 && \
     go get -d github.com/gorilla/mux@v1.8.0 && \
-    go get -d github.com/gocarina/gocsv@v0.0.0-20220727205534-7fbf8e1b37fb
+    go get -d github.com/gocarina/gocsv@v0.0.0-20220727205534-7fbf8e1b37fb && \
+    go get -d github.com/tatsushid/go-fastping@v0.0.0-20160109021039-d7bb493dee3e 
 
 # Build Source Files
 RUN go build 
