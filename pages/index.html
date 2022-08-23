@@ -17,25 +17,30 @@
       <div class="row">
         <div class="col-12" role="main">
           <h1><span class="fa fa-qq"></span> GO-REST-WOL <small>Your little Monster to Wakeup the lazy one</small></h1>
-            <div id="snackbar" class="alert hideMe">
+            <div id="snackbar" class="alert hideMe" style="display:none">
               Message comes here
             </div>
             <table class="table">
                 <thead>
                   <tr>
-                    <th></td>
+                    <th></th>
                     <th>Computer</th>
+                    <th>Status</th>
                     <th>MAC Adress</th>
-                    <th>Broadcast IP Address</th>
+                    <th>IP Address</th>
                     <th>API URL</th>
                     <th>API Status URL</th>
                   </tr>
                 </thead>
                 <tbody>
                   {{range .}}
-                  <tr>
+                  <tr id="computer_{{.Name}}">
                     <td class="align-middle"><b><button id="bn_{{.Name}}" name="wolbutton" value="{{.Name}}" class="btn btn-success btn-sm" onclick="$.wakeUpComputerByName('{{.Name}}')">WakeUp</button></b></td>
-                    <td class="align-middle">{{.Name}}</td>
+                    <td class="align-middle computername">{{.Name}}</td>
+                    <td class="align-middle">
+                      <span style="display:none" id="online_{{.Name}}" class="badge badge-success">UP</span>
+                      <span id="offline_{{.Name}}" class="badge badge-danger">DOWN</span>
+                    </td>
                     <td class="align-middle">{{.Mac}}</td>
                     <td class="align-middle">{{.BroadcastIPAddress}}</td>
                     <td class="align-middle">/api/wakeup/computer/{{.Name}}</td>
@@ -153,9 +158,6 @@
             $(`#offline_${computer}`).show();
             $(`#online_${computer}`).hide();
           }
-          $(`#computer_${computer}`)
-            .removeClass(classToRemove)
-            .addClass(classToAdd);
         }
 
         jQuery.showSnackBar = function(data){
