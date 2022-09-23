@@ -158,6 +158,9 @@
             $(`#offline_${computer}`).show();
             $(`#online_${computer}`).hide();
           }
+          $(`#computer_${computer}`)
+            .removeClass(classToRemove)
+            .addClass(classToAdd);
         }
 
         jQuery.showSnackBar = function(data){
