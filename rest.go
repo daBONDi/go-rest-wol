@@ -57,3 +57,34 @@ func restWakeUpWithComputerName(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(result)
 }
+
+func pingWithComputerName(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	vars := mux.Vars(r)
+	computerName := vars["computerName"]
+	var result PingResponseObject
+	result.IsOnLine=false
+
+	var computer Computer
+	for _,c := range ComputerList{
+		if c.Name == computerName{
+			computer = c
+
+			result.IsOnLine, result.ErrorObject = Ping(computer.IPAddress)
+
+			if result.ErrorObject != nil {
+				// We got an internal Error on Ping
+				w.WriteHeader(http.StatusInternalServerError)
+				result.Message = "Internal error on Sending Ping"
+			} else {
+				if result.IsOnLine {
+					result.Message = fmt.Sprintf("Computer %s with IP Address %s is online!", computerName, computer.IPAddress)
+				} else {
+					result.Message = fmt.Sprintf("Computer %s with IP Address %s is offline!", computerName, computer.IPAddress)
+				}
+			}
+		}
+	}
+	json.NewEncoder(w).Encode(result)
+}

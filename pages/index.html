@@ -17,34 +17,41 @@
       <div class="row">
         <div class="col-12" role="main">
           <h1><span class="fa fa-qq"></span> GO-REST-WOL <small>Your little Monster to Wakeup the lazy one</small></h1>
-            <div id="snackbar" class="alert hideMe">
+            <div id="snackbar" class="alert hideMe" style="display:none">
               Message comes here
             </div>
             <table class="table">
                 <thead>
                   <tr>
-                    <th></td>
+                    <th></th>
                     <th>Computer</th>
+                    <th>Status</th>
                     <th>MAC Adress</th>
-                    <th>Broadcast IP Address</th>
+                    <th>IP Address</th>
                     <th>API URL</th>
+                    <th>API Status URL</th>
                   </tr>
                 </thead>
                 <tbody>
                   {{range .}}
-                  <tr>
+                  <tr id="computer_{{.Name}}">
                     <td class="align-middle"><b><button id="bn_{{.Name}}" name="wolbutton" value="{{.Name}}" class="btn btn-success btn-sm" onclick="$.wakeUpComputerByName('{{.Name}}')">WakeUp</button></b></td>
-                    <td class="align-middle">{{.Name}}</td>
+                    <td class="align-middle computername">{{.Name}}</td>
+                    <td class="align-middle">
+                      <span style="display:none" id="online_{{.Name}}" class="badge badge-success">UP</span>
+                      <span id="offline_{{.Name}}" class="badge badge-danger">DOWN</span>
+                    </td>
                     <td class="align-middle">{{.Mac}}</td>
                     <td class="align-middle">{{.BroadcastIPAddress}}</td>
                     <td class="align-middle">/api/wakeup/computer/{{.Name}}</td>
+                    <td class="align-middle">/api/ping/computer/{{.Name}}</td>
                   </tr>
                   {{end}}
                 </tbody>
               </table>
               <hr>
               <p>
-                <h3>REST API Usage</h3>
+                <h3>REST API Usage: WOL</h3>
                 <b>/api/wakeup/computer/<span class="text-info">&lt;ComputerName&gt;</span></b>
 
                 <b>Returns a JSON Object</b>
@@ -69,6 +76,33 @@
               </p>
               <hr>
               <p>
+
+                <p>
+                  <h3>REST API Usage: PING</h3>
+                  <b>/api/ping/computer/<span class="text-info">&lt;ComputerName&gt;</span></b>
+  
+                  <b>Returns a JSON Object</b>
+                  <p>
+                  <pre>
+                    {
+                      "isonline":true,
+                      "message":"Computer Computer1 with IP Address 192.168.10.101 is online!",
+                      "error":null
+                    }
+                  </pre>
+                  </p>
+                  <dl class="dl-horizontal">
+                    <dt>isonline</dt>
+                    <dd>True or False if the Ping packet was sent and a response was received.</dd>
+                    <dt>message</dt>
+                    <dd>Message as string what happen</dd>
+                    <dt>error</dt>
+                    <dd>Encoded Jsonobject from GOLANG Error Object</dd>
+                  </dl>
+  
+                </p>
+                <hr>
+                <p>
                 <span class="fa fa-github"></span> Project Page: <a href="https://github.com/dabondi/go-rest-wol">https://github.com/dabondi/go-rest-wol</a>
               </p>
               <p>
@@ -84,6 +118,50 @@
 
     <script>
       $(document).ready(function() {
+        pingComputers()
+        setInterval(pingComputers, 5000);
+
+        function pingComputers() {
+          const computerArray = $(".computername").toArray().map(a=> a.innerText);
+          computerArray.forEach(computer => {
+            pingComputer(computer);
+          });
+        }
+
+        function pingComputer(computer){
+          $.ajax({
+            type: "GET",
+            url: "/api/ping/computer/" + computer,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) {
+              setComputerStatus(computer,data.isonline)
+            },
+            error: function(data,err)
+            {
+              $.showSnackBar(data);
+              console.error(data);
+            }
+          });
+        }
+
+        function setComputerStatus(computer,isOnLine)
+        {
+          const offLineClass="";
+          const onLineClass="table-success";
+          const classToAdd = isOnLine ? onLineClass: offLineClass;
+          const classToRemove = !isOnLine? onLineClass: offLineClass;
+          if (isOnLine) { 
+            $(`#offline_${computer}`).hide();
+            $(`#online_${computer}`).show();
+          } else { 
+            $(`#offline_${computer}`).show();
+            $(`#online_${computer}`).hide();
+          }
+          $(`#computer_${computer}`)
+            .removeClass(classToRemove)
+            .addClass(classToAdd);
+        }
 
         jQuery.showSnackBar = function(data){
 

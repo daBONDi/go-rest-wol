@@ -11,5 +11,12 @@ type WakeUpResponseObject struct {
 type Computer struct {
 	Name               string `csv:"name"`
 	Mac                string `csv:"mac"`
-	BroadcastIPAddress string `csv:"ip"`
+	IPAddress 		   string `csv:"ip"`
+	BroadcastIPAddress string `csv:"broadcast_ip"`
+}
+
+type PingResponseObject struct {
+	IsOnLine    bool  `json:"isonline"`
+	Message     string `json:"message"`
+	ErrorObject error `json:"error"`
 }
